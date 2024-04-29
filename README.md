@@ -16,7 +16,7 @@ Running the extra logic on a server that computes the final URL and redirects th
 
 Converting from WGS84 coordinates to Israeli Transverse Mercator for sites like Amud Anan.
 
-The URL I configured in obsidian map view: http://mcxim.pythonanywhere.com/redirect/{x}/{y}/itm/https%3A%2F%2Famudanan.co.il%2F%23lat%3D%7By%7D%26lon%3D%7Bx%7D
+The URL I configured in obsidian map view: http://mcxim.pythonanywhere.com/redirect/{x}/{y}/itm/http%3A%2F%2Famudanan.co.il%2F%23lat%3D%7By%7D%26lon%3D%7Bx%7D
 
 ### Israel Antiquities Authority Surveys
 
