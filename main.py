@@ -60,11 +60,24 @@ def iaa_open_map(x, y):
     if not relevant_map:
         abort(404)
     return redirect(
-        "https://survey.antiquities.org.il/#/MapSurvey/{map_id}/Zoom/15/Center/{x}&{y}".format(
-            map_id=relevant_map["id"],
-            x=x,
-            y=y
-        )
+        f"https://survey.antiquities.org.il/#/MapSurvey/{relevant_map['id']}/Zoom/15/Center/{x}&{y}"
+    )
+
+
+@app.route(
+    "/govmap/<float(signed=True):x>/<float(signed=True):y>", methods=["GET"]
+)
+def govmap(x, y):
+    zoom = 11
+    layers = [
+        "ATIKOT_SITES_ITM",
+        "YESHUVIM_ET_ATIKA",
+    ]  # Interesting layers from the site
+    layers_string = ",".join(layers)
+    (converted_x, converted_y) = convert_coordinates(x, y, "itm")
+    # A URL which is both centered at the point and showing relevant layer information about the point:
+    return redirect(
+        f"https://www.govmap.gov.il/?c={converted_x},{converted_y}&z={zoom}&b=2&lay={layers_string}&bs={layers_string}%7C{converted_x},{converted_y}"
     )
 
 

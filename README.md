@@ -25,3 +25,9 @@ There are a lot of surveys and you first have to resolve the survey which corres
 I didn't find any automatic coordinates -> survey id conversion, so I wrote it myself.
 
 The URL I configured in obsidian map view: http://mcxim.pythonanywhere.com/iaa_survey/{x}/{y}
+
+### GovMap redirect
+
+Place the ITM-converted coordinates both as the center and as the point which we want to get info about.
+
+The URL I configured in obsidian map view: http://mcxim.pythonanywhere.com/govmap/{x}/{y}
