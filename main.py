@@ -1,7 +1,13 @@
 from flask import Flask, redirect, abort
 from pyproj import Proj, transform
-from antiquities import find_map_by_coordinates
-from static_maps import static_maps
+from antiquities import (
+    bing_map_from_infos,
+    find_map_by_coordinates,
+    get_site_description,
+    get_site_info,
+    is_with_photos,
+    map_ids_to_sites,
+)
 
 app = Flask(__name__)
 
@@ -56,7 +62,7 @@ def redirect_with_coords(x, y, coord_type, target):
     "/iaa_survey/<float(signed=True):x>/<float(signed=True):y>", methods=["GET"]
 )
 def iaa_open_map(x, y):
-    relevant_map = find_map_by_coordinates(static_maps, x, y)
+    relevant_map = find_map_by_coordinates(x, y)
     if not relevant_map:
         abort(404)
     return redirect(
@@ -79,6 +85,29 @@ def govmap(x, y):
     return redirect(
         f"https://www.govmap.gov.il/?c={converted_x},{converted_y}&z={zoom}&b=2&lay={layers_string}&bs={layers_string}%7C{converted_x},{converted_y}"
     )
+
+
+@app.route(
+    "/iaa_filtered/<float(signed=True):x>/<float(signed=True):y>",
+    methods=["GET"],
+)
+def iaa_filtered_map(x, y):
+    relevant_map = find_map_by_coordinates(x, y)
+    if not relevant_map:
+        abort(405)
+    relevant_map_id = relevant_map["id"]
+    relevant_map = [
+        get_site_description(site_id)
+        for site_id in [
+            site["id"]
+            for site in map_ids_to_sites([relevant_map_id])[relevant_map_id]
+        ]
+    ]
+    infos = [get_site_info(site) for site in relevant_map]
+    filtered = [
+        info for info in infos if is_with_photos(info)
+    ]
+    return redirect(bing_map_from_infos(filtered))
 
 
 if __name__ == "__main__":

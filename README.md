@@ -26,6 +26,12 @@ I didn't find any automatic coordinates -> survey id conversion, so I wrote it m
 
 The URL I configured in obsidian map view: http://mcxim.pythonanywhere.com/iaa_survey/{x}/{y}
 
+### Israel Antiquities Authority Relevant entries
+
+I wanted to filter out only entries from recent periods or which have photos. Wrote some code to do that.
+
+The URL I configured in obsidian map view: http://mcxim.pythonanywhere.com/iaa_filtered/{x}/{y}
+
 ### GovMap redirect
 
 Place the ITM-converted coordinates both as the center and as the point which we want to get info about.
